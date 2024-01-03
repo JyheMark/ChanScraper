@@ -9,6 +9,8 @@ namespace ChanScraper.Client.Views;
 
 public partial class ScrapeThreadView : UserControl
 {
+    private bool _isScraping;
+    
     public ScrapeThreadView()
     {
         InitializeComponent();
@@ -30,5 +32,39 @@ public partial class ScrapeThreadView : UserControl
             return;
 
         DownloadDirectoryPath.Text = directory[0].Path.AbsolutePath; 
+    }
+
+    private void ScrapeButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(DownloadDirectoryPath.Text) || string.IsNullOrWhiteSpace(ThreadUrl.Text))
+            return;
+
+        if (!Uri.IsWellFormedUriString(ThreadUrl.Text, UriKind.Absolute))
+            return;
+
+        if (!_isScraping)
+        {
+            StartScraping();
+            _isScraping = true;
+        }
+        else
+        {
+            StopScraping();
+            _isScraping = false;
+        }
+    }
+
+    private void StopScraping()
+    {
+        ScrapeButton.Content = "Scrape Images";
+        BrowseButton.IsEnabled = true;
+        ThreadUrl.IsEnabled = true;
+    }
+
+    private void StartScraping()
+    {
+        ScrapeButton.Content = "Stop Scraping";
+        BrowseButton.IsEnabled = false;
+        ThreadUrl.IsEnabled = false;
     }
 }

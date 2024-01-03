@@ -19,7 +19,8 @@
                          Name="DownloadDirectoryPath"/>
                 <Button Grid.Column="1"
                         Width="30"
-                        Click="BrowseButton_OnClick">
+                        Click="BrowseButton_OnClick"
+                        Name="BrowseButton">
                     ...
                 </Button>
             </Grid>
@@ -28,7 +29,9 @@
                      Text="{Binding ThreadUri}"
                      Name="ThreadUrl"/>
             <Button HorizontalAlignment="Center"
-                    Margin="0 5">
+                    Margin="0 5"
+                    Name="ScrapeButton"
+                    Click="ScrapeButton_OnClick">
                 Scrape Images
             </Button>
         </StackPanel>
