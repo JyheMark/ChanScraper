@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanScraper.Console", "src\ChanScraper.Console\ChanScraper.Console.csproj", "{109CDEB1-0FC0-4694-8F9D-2AD6814CD2ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanScraper.ChanApi", "src\ChanScraper.ChanApi\ChanScraper.ChanApi.csproj", "{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,6 +16,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{109CDEB1-0FC0-4694-8F9D-2AD6814CD2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109CDEB1-0FC0-4694-8F9D-2AD6814CD2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109CDEB1-0FC0-4694-8F9D-2AD6814CD2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109CDEB1-0FC0-4694-8F9D-2AD6814CD2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
