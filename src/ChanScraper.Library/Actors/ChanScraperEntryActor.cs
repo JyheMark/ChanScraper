@@ -28,7 +28,7 @@ public sealed class ChanScraperEntryActor : ReceiveActor
     {
         Receive<WatchThread>(msg =>
         {
-            var scraperActor = Context.ActorOf(DependencyResolver.For(Context.System).Props<ThreadScraperActor>());
+            var scraperActor = Context.ActorOf(DependencyResolver.For(Context.System).Props<ThreadScraperActor>(), $"{msg.Board}-{msg.ThreadId}-scraper");
             scraperActor.Tell(new StartScraping(msg.Board, msg.ThreadId, _downloadLocation), Self);
         });
     }

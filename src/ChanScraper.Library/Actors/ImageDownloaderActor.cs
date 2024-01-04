@@ -37,14 +37,8 @@ internal sealed class ImageDownloaderActor : ReceiveActor
 
     private void DownloadImages(string board, Thread thread)
     {
-        var threadName = thread.Posts.First().Comment.Replace(" ", "_");
-        var directoryName = $"{board}--{thread.Posts.First().Id}--{threadName}";
+        string directoryPath = GetDirectoryPath(BuildDirectoryName(board, thread));
 
-        var directoryPath = Path.Join(_downloadPath, directoryName);
-
-        if (!Directory.Exists(directoryName))
-            Directory.CreateDirectory(directoryPath);
-        
         foreach (Post post in thread.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
         {
             var imageFileName = $"{post.FileName}--{post.Time}{post.FileExtension}";
@@ -65,6 +59,37 @@ internal sealed class ImageDownloaderActor : ReceiveActor
 
             _processedPosts.Add(post.Id.Value);
         }
+    }
+
+    private string GetDirectoryPath(string directoryName)
+    {
+        var directoryPath = Path.Join(_downloadPath, directoryName);
+
+        if (!Directory.Exists(directoryName))
+            Directory.CreateDirectory(directoryPath);
+        return directoryPath;
+    }
+
+    private static string BuildDirectoryName(string board, Thread thread)
+    {
+        var directoryName = $"{board}--{thread.Posts.First().Id}";
+
+        var threadTitle = thread.Posts.First().Title;
+        
+        if (!string.IsNullOrWhiteSpace(threadTitle))
+            directoryName += $"--{threadTitle}";
+        else
+        {
+            var threadComment = thread.Posts.First().Comment;
+            
+            if (!string.IsNullOrWhiteSpace(threadComment))
+                directoryName += $"--{threadComment}";
+        }
+
+        return directoryName
+            .Replace(" ", "_")
+            .Replace("/", "_")
+            .Replace("\\", "_");
     }
 
     private void Downloading()
