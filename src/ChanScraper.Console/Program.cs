@@ -1,46 +1,65 @@
-﻿using System.Net.Http.Json;
-using ChanScraper.ChanApi;
-using ChanScraper.ChanApi.Extensions;
-using ChanScraper.ChanApi.Models;
-using Thread = ChanScraper.ChanApi.Models.Thread;
+﻿using Akka.Actor;
+using Akka.Hosting;
+using ChanScraper.Library.Actors;
+using ChanScraper.Library.Actors.Messages;
+using ChanScraper.Library.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-Console.Clear();
-Console.Write("Enter board: ");
-string? boardInput = Console.ReadLine();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 
-Console.Clear();
-Console.Write("Enter thread ID: ");
-string? threadIdInput = Console.ReadLine();
+builder.Logging.ClearProviders();
 
-Console.Clear();
-Console.Write("Enter a download location: ");
-string? downloadPath = Console.ReadLine();
+builder.Services.AddSingleton(new HttpClient());
+builder.Services.AddChanScraperServices();
 
-int threadId = int.Parse(threadIdInput);
+IHost app = builder.Build();
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+var scraperParentActor = app.Services.GetRequiredService<IRequiredActor<ChanScraperEntryActor>>();
 
-var chanClient = new ChanClient(new HttpClient());
-HttpResponseMessage postResponse = await chanClient.GetPostsAsync(boardInput, threadId);
-
-if (!postResponse.IsSuccessStatusCode)
-    return;
-
-var thread = await postResponse.Content.ReadFromJsonAsync<Thread>();
-
-foreach (Post post in thread.Posts.Where(p => p.HasAttachment()))
+try
 {
-    HttpResponseMessage imageResponse = await chanClient.GetImageAsync(boardInput, post);
+    var downloadPath = string.Empty;
 
-    if (!imageResponse.IsSuccessStatusCode)
-        continue;
-    
-    var imageFileName = $"{post.FileName}--{post.Time}{post.FileExtension}";
-    
-    Console.WriteLine($"Saving image {imageFileName}");
+    while (true)
+    {
+        downloadPath = GetInput("Enter download path");
 
-    byte[] bytes = await imageResponse.Content.ReadAsByteArrayAsync();
-    
-    await using FileStream write = File.OpenWrite(Path.Join(downloadPath, imageFileName));
-    await write.WriteAsync(bytes);
+        if (!DownloadPathIsValid(downloadPath))
+            Console.WriteLine("Download path invalid");
+        else break;
+    }
+
+    Task runTask = app.RunAsync();
+
+    scraperParentActor.ActorRef.Tell(new SetDownloadLocation(downloadPath!), ActorRefs.NoSender);
+
+    while (true)
+    {
+        var boardNameInput = GetInput("Enter board");
+        var threadIdInput = GetInput("Enter thread Id");
+        var threadId = int.Parse(threadIdInput);
+        
+        scraperParentActor.ActorRef.Tell(new WatchThread(boardNameInput, threadId));
+    }
+}
+catch (Exception ex)
+{
+    logger.LogCritical(ex, "Fatal error");
 }
 
-Console.WriteLine("Completed");
+bool DownloadPathIsValid(string? path)
+{
+    if (string.IsNullOrWhiteSpace(path))
+        return false;
+
+    return Path.Exists(path);
+}
+
+string? GetInput(string msg)
+{
+    Console.Clear();
+    Console.Write($"{msg}: ");
+    return Console.ReadLine();
+}

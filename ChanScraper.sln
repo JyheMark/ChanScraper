@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanScraper.Console", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanScraper.ChanApi", "src\ChanScraper.ChanApi\ChanScraper.ChanApi.csproj", "{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChanScraper.Library", "src\ChanScraper.Library\ChanScraper.Library.csproj", "{EC9D2A13-16AE-4684-B8E7-BC843FF0247D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EF711FF-CCA0-4EC9-A467-593DC4B4F2B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9D2A13-16AE-4684-B8E7-BC843FF0247D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9D2A13-16AE-4684-B8E7-BC843FF0247D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9D2A13-16AE-4684-B8E7-BC843FF0247D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9D2A13-16AE-4684-B8E7-BC843FF0247D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
