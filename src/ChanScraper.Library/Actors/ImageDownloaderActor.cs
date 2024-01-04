@@ -85,11 +85,11 @@ internal sealed class ImageDownloaderActor : ReceiveActor
             if (!string.IsNullOrWhiteSpace(threadComment))
                 directoryName += $"--{threadComment}";
         }
+        
+        var directoryNameCleaned = string.Join("", directoryName.Split(Path.GetInvalidFileNameChars()));
 
-        return directoryName
-            .Replace(" ", "_")
-            .Replace("/", "_")
-            .Replace("\\", "_");
+        return directoryNameCleaned
+            .Replace(" ", "_");
     }
 
     private void Downloading()
