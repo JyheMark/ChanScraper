@@ -8,7 +8,7 @@
              x:DataType="vm:ScrapeThreadViewModel">
         <StackPanel>
             <Grid ColumnDefinitions="Auto *"
-                  RowDefinitions="Auto">
+                  RowDefinitions="Auto Auto">
                 <ComboBox SelectedIndex="0"
                           Grid.Column="0"
                           Grid.Row="0">
@@ -19,21 +19,24 @@
                          Grid.Column="1"
                          Grid.Row="0"
                          Text="{Binding ThreadIdInput}"/>
-            </Grid>
-            <Button HorizontalAlignment="Center"
-                    Margin="0 5 0 0"
-                    Name="btn_ToggleStart"
-                    Click="Btn_ToggleStart_OnClick">
-                Start
-            </Button>
-            <StackPanel Orientation="Horizontal"
+                <Button Grid.Column="0" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
                         Margin="0 5 0 0"
-                        HorizontalAlignment="Center">
-                <TextBlock VerticalAlignment="Center">Status: </TextBlock>
-                <TextBlock VerticalAlignment="Center"
-                           Margin="5 0 0 0">
-                    Stopped
-                </TextBlock>
-            </StackPanel>
+                        Name="btn_ToggleStart"
+                        Click="Btn_ToggleStart_OnClick">
+                    Start
+                </Button>
+                <StackPanel Grid.Column="1" Grid.Row="1" 
+                    Orientation="Horizontal"
+                            Margin="5 5 0 0"
+                            HorizontalAlignment="Left">
+                    <TextBlock VerticalAlignment="Center">Status: </TextBlock>
+                    <TextBlock VerticalAlignment="Center"
+                               Margin="5 0 0 0">
+                        Stopped
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
         </StackPanel>
 </UserControl>

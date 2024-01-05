@@ -23,9 +23,14 @@
         <StackPanel>
             <TextBox Watermark="Download Directory"
                      IsReadOnly="True"
-                     Margin="0 0 0 10"/>
-            <views:ScrapeThreadView DataContext="{Binding ScrapeThread}" 
-                                    Margin="0 10"/>
+                     Text="{Binding DownloadDirectory}"/>
+            <StackPanel Name="pnl_ScrapeThreadAppend"
+                        Margin="0 15 0 0"
+                        Spacing="20">
+                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
+                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
+                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
+            </StackPanel>
         </StackPanel>
     </Border>
 </Window>
