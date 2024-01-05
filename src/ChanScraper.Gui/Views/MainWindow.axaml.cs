@@ -32,6 +32,11 @@ public partial class MainWindow : Window
             DataContext = scrapeViewModel
         };
 
+        scrapeView.ButtonClicked += (_, args) =>
+        {
+            ViewModel.ToggleThreadScraping(args.Board, args.ThreadId);
+        };
+
         pnl_ScrapeThreadAppend.Children.Add(scrapeView);
     }
 
@@ -46,7 +51,10 @@ public partial class MainWindow : Window
 
         if (!selectedDirectory.Any())
             return;
+
+        var downloadPath = selectedDirectory[0].Path.AbsolutePath;
         
-        ViewModel.DownloadDirectory = selectedDirectory[0].Path.AbsolutePath;
+        ViewModel.DownloadDirectory = downloadPath;
+        ViewModel.SetDownloadDirectory(downloadPath);
     }
 }

@@ -2,11 +2,13 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ChanScraper.Gui.ViewModels;
+using ChanScraper.Gui.Views.Events;
 
 namespace ChanScraper.Gui.Views;
 
 public partial class ScrapeThreadView : UserControl
 {
+    public event EventHandler<ScrapeToggleButtonPressed> ButtonClicked;
     private ScrapeThreadViewModel ViewModel => DataContext as ScrapeThreadViewModel;
     
     public ScrapeThreadView()
@@ -24,6 +26,11 @@ public partial class ScrapeThreadView : UserControl
 
     private void Btn_ToggleStart_OnClick(object? sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        // validate
+        
+        var selectedBoard = ViewModel.GetBoardByIndex(cbx_BoardSelector.SelectedIndex);
+        var threadId = int.Parse(ViewModel.ThreadIdInput);
+        
+        ButtonClicked?.Invoke(sender, new ScrapeToggleButtonPressed(selectedBoard, threadId));
     }
 }

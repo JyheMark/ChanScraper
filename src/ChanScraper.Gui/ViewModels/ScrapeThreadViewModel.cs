@@ -21,6 +21,11 @@ public sealed class ScrapeThreadViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _threadIdInput, value);
     }
 
+    public Board GetBoardByIndex(int index)
+    {
+        return _boards.ElementAt(index);
+    }
+
     public async Task<IEnumerable<Board>> GetBoardsAsync()
     {
         if (_boards != null && _boards.Any())
