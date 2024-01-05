@@ -14,21 +14,34 @@
 
     <Border Padding="10">
         <StackPanel>
-            <TextBox Watermark="Download Directory"
-                     IsReadOnly="True"
-                     Text="{Binding DownloadDirectory}"/>
+            <Grid ColumnDefinitions="* Auto" RowDefinitions="Auto">
+                <TextBox Grid.Column="0"
+                         Grid.Row="0"
+                         Watermark="Download Directory"
+                         IsReadOnly="True"
+                         Text="{Binding DownloadDirectory}"
+                         Name="txt_DownloadDirectory" />
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Name="btn_BrowseDownloadLocation"
+                    Click="Btn_BrowseDownloadLocation_OnClick">
+                    ...
+                </Button>
+            </Grid>
             <ScrollViewer MaxHeight="600">
                 <StackPanel Name="pnl_ScrapeThreadAppend"
                             Margin="0 15 0 0"
-                            Spacing="20">
-                </StackPanel>
+                            Spacing="20" />
             </ScrollViewer>
             <Button HorizontalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     Margin="0 25 0 0"
                     Width="30"
                     Name="btn_AddScraper"
-                    Click="Btn_AddScraper_OnClick">+</Button>
+                    Click="Btn_AddScraper_OnClick">
+                +
+            </Button>
         </StackPanel>
     </Border>
 </Window>

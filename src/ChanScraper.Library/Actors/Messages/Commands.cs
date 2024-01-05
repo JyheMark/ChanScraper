@@ -1,4 +1,4 @@
-﻿using Thread = ChanScraper.ChanApi.Models.Thread;
+﻿using ChanScraper.ChanApi.Models;
 
 namespace ChanScraper.Library.Actors.Messages;
 
@@ -8,4 +8,4 @@ public sealed record WatchThread(string Board, int ThreadId);
 
 internal sealed record StartScraping(string Board, int ThreadId, string DownloadPath);
 
-internal sealed record DownloadImages(string Board, Thread Thread);
+internal sealed record DownloadImages(string Board, GetThreadResponse GetThreadResponse);

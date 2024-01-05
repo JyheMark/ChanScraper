@@ -3,8 +3,8 @@ using Akka.Actor;
 using Akka.DependencyInjection;
 using Akka.Event;
 using ChanScraper.ChanApi;
+using ChanScraper.ChanApi.Models;
 using ChanScraper.Library.Actors.Messages;
-using Thread = ChanScraper.ChanApi.Models.Thread;
 
 namespace ChanScraper.Library.Actors;
 
@@ -68,7 +68,7 @@ internal sealed class ThreadScraperActor : ReceiveActor
             return;
         }
 
-        Thread? thread = threadResponse.Content.ReadFromJsonAsync<Thread>().GetAwaiter().GetResult();
+        GetThreadResponse? thread = threadResponse.Content.ReadFromJsonAsync<GetThreadResponse>().GetAwaiter().GetResult();
 
         if (thread == null)
         {

@@ -4,7 +4,6 @@ using ChanScraper.ChanApi;
 using ChanScraper.ChanApi.Extensions;
 using ChanScraper.ChanApi.Models;
 using ChanScraper.Library.Actors.Messages;
-using Thread = ChanScraper.ChanApi.Models.Thread;
 
 namespace ChanScraper.Library.Actors;
 
@@ -30,16 +29,16 @@ internal sealed class ImageDownloaderActor : ReceiveActor
         Receive<DownloadImages>(msg =>
         {
             Become(Downloading);
-            DownloadImages(msg.Board, msg.Thread);
+            DownloadImages(msg.Board, msg.GetThreadResponse);
             Become(Ready);
         });
     }
 
-    private void DownloadImages(string board, Thread thread)
+    private void DownloadImages(string board, GetThreadResponse getThreadResponse)
     {
-        string directoryPath = GetDirectoryPath(BuildDirectoryName(board, thread));
+        string directoryPath = GetDirectoryPath(BuildDirectoryName(board, getThreadResponse));
 
-        foreach (Post post in thread.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
+        foreach (GetThreadResponse.Post post in getThreadResponse.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
         {
             var imageFileName = $"{post.FileName}--{post.Time}{post.FileExtension}";
             _loggingAdapter.Info($"Fetching image {imageFileName}");
@@ -70,17 +69,17 @@ internal sealed class ImageDownloaderActor : ReceiveActor
         return directoryPath;
     }
 
-    private static string BuildDirectoryName(string board, Thread thread)
+    private static string BuildDirectoryName(string board, GetThreadResponse getThreadResponse)
     {
-        var directoryName = $"{board}--{thread.Posts.First().Id}";
+        var directoryName = $"{board}--{getThreadResponse.Posts.First().Id}";
 
-        var threadTitle = thread.Posts.First().Title;
+        var threadTitle = getThreadResponse.Posts.First().Title;
         
         if (!string.IsNullOrWhiteSpace(threadTitle))
             directoryName += $"--{threadTitle}";
         else
         {
-            var threadComment = thread.Posts.First().Comment;
+            var threadComment = getThreadResponse.Posts.First().Comment;
             
             if (!string.IsNullOrWhiteSpace(threadComment))
                 directoryName += $"--{threadComment}";

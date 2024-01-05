@@ -1,14 +1,43 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using ChanScraper.ChanApi;
+using ChanScraper.ChanApi.Models;
+using ReactiveUI;
 
 namespace ChanScraper.Gui.ViewModels;
 
 public sealed class ScrapeThreadViewModel : ViewModelBase
 {
+    private static IEnumerable<string>? _boards;
     private string _threadIdInput = string.Empty;
 
     public string ThreadIdInput
     {
         get => _threadIdInput;
         set => this.RaiseAndSetIfChanged(ref _threadIdInput, value);
+    }
+
+    public async Task<IEnumerable<string>> GetBoardsAsync()
+    {
+        if (_boards != null && _boards.Any())
+            return _boards;
+
+        var chanClient = App.GetService<IChanClient>();
+        HttpResponseMessage response = await chanClient.GetBoardsAsync();
+
+        if (!response.IsSuccessStatusCode)
+            throw new Exception("Could not retrieve boards");
+
+        GetBoardsResponse? result = response.Content
+            .ReadFromJsonAsync<GetBoardsResponse>()
+            .GetAwaiter()
+            .GetResult();
+
+        _boards = result.Boards.Select(p => p.ShortTitle);
+        return _boards;
     }
 }
