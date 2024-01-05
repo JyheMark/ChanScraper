@@ -27,10 +27,13 @@
             <StackPanel Name="pnl_ScrapeThreadAppend"
                         Margin="0 15 0 0"
                         Spacing="20">
-                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
-                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
-                <views:ScrapeThreadView DataContext="{Binding ScrapeThread}"/>
             </StackPanel>
+            <Button HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Margin="0 25 0 0"
+                    Width="30"
+                    Name="btn_AddScraper"
+                    Click="Btn_AddScraper_OnClick">+</Button>
         </StackPanel>
     </Border>
 </Window>
