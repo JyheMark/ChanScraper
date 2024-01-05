@@ -5,7 +5,7 @@ namespace ChanScraper.ChanApi;
 public interface IChanClient
 {
     Task<HttpResponseMessage> GetPostsAsync(string board, int threadId);
-    Task<HttpResponseMessage> GetImageAsync(string board, GetThreadResponse.Post post);
+    Task<HttpResponseMessage> GetImageAsync(string board, Post post);
     Task<HttpResponseMessage> GetBoardsAsync();
 }
 
@@ -27,7 +27,7 @@ public class ChanClient : IChanClient
         return await _httpClient.SendAsync(request);
     }
 
-    public async Task<HttpResponseMessage> GetImageAsync(string board, GetThreadResponse.Post post)
+    public async Task<HttpResponseMessage> GetImageAsync(string board, Post post)
     {
         var uri = $"https://i.4cdn.org/{board}/{post.Time}{post.FileExtension}";
 

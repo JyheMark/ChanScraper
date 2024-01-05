@@ -12,7 +12,7 @@ namespace ChanScraper.Gui.ViewModels;
 
 public sealed class ScrapeThreadViewModel : ViewModelBase
 {
-    private static IEnumerable<string>? _boards;
+    private static IEnumerable<Board>? _boards;
     private string _threadIdInput = string.Empty;
 
     public string ThreadIdInput
@@ -21,7 +21,7 @@ public sealed class ScrapeThreadViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _threadIdInput, value);
     }
 
-    public async Task<IEnumerable<string>> GetBoardsAsync()
+    public async Task<IEnumerable<Board>> GetBoardsAsync()
     {
         if (_boards != null && _boards.Any())
             return _boards;
@@ -36,8 +36,11 @@ public sealed class ScrapeThreadViewModel : ViewModelBase
             .ReadFromJsonAsync<GetBoardsResponse>()
             .GetAwaiter()
             .GetResult();
+        
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(result.Boards);
 
-        _boards = result.Boards.Select(p => p.ShortTitle);
+        _boards = result.Boards;
         return _boards;
     }
 }

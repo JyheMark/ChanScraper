@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ChanScraper.Gui.ViewModels"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:models="clr-namespace:ChanScraper.ChanApi.Models;assembly=ChanScraper.ChanApi"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
              x:Class="ChanScraper.Gui.Views.ScrapeThreadView"
              x:DataType="vm:ScrapeThreadViewModel">
@@ -14,8 +14,8 @@
                       Grid.Row="0"
                       Name="cbx_BoardSelector">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="system:String">
-                        <TextBlock Text="{Binding StringFormat='/{0}/'}" />
+                    <DataTemplate DataType="models:Board">
+                        <TextBlock Text="{Binding ShortTitle, StringFormat='/{0}/'}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

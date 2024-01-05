@@ -38,7 +38,7 @@ internal sealed class ImageDownloaderActor : ReceiveActor
     {
         string directoryPath = GetDirectoryPath(BuildDirectoryName(board, getThreadResponse));
 
-        foreach (GetThreadResponse.Post post in getThreadResponse.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
+        foreach (Post post in getThreadResponse.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
         {
             var imageFileName = $"{post.FileName}--{post.Time}{post.FileExtension}";
             _loggingAdapter.Info($"Fetching image {imageFileName}");
