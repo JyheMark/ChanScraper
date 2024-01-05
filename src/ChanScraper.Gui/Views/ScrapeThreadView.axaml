@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ChanScraper.Gui.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
+             x:Class="ChanScraper.Gui.Views.ScrapeThreadView"
+             x:DataType="vm:ScrapeThreadViewModel">
+        <StackPanel>
+            <Grid ColumnDefinitions="Auto *"
+                  RowDefinitions="Auto">
+                <ComboBox SelectedIndex="0"
+                          Grid.Column="0"
+                          Grid.Row="0">
+                    <ComboBoxItem>/b/</ComboBoxItem>
+                    <ComboBoxItem>/h/</ComboBoxItem>
+                </ComboBox>
+                <TextBox Watermark="Thread Id"
+                         Grid.Column="1"
+                         Grid.Row="0"
+                         Text="{Binding ThreadIdInput}"/>
+            </Grid>
+            <Button HorizontalAlignment="Center"
+                    Margin="0 5 0 0"
+                    Name="btn_ToggleStart"
+                    Click="Btn_ToggleStart_OnClick">
+                Start
+            </Button>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 5 0 0"
+                        HorizontalAlignment="Center">
+                <TextBlock VerticalAlignment="Center">Status: </TextBlock>
+                <TextBlock VerticalAlignment="Center"
+                           Margin="5 0 0 0">
+                    Stopped
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+</UserControl>
