@@ -24,10 +24,12 @@
             <TextBox Watermark="Download Directory"
                      IsReadOnly="True"
                      Text="{Binding DownloadDirectory}"/>
-            <StackPanel Name="pnl_ScrapeThreadAppend"
-                        Margin="0 15 0 0"
-                        Spacing="20">
-            </StackPanel>
+            <ScrollViewer MaxHeight="600">
+                <StackPanel Name="pnl_ScrapeThreadAppend"
+                            Margin="0 15 0 0"
+                            Spacing="20">
+                </StackPanel>
+            </ScrollViewer>
             <Button HorizontalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     Margin="0 25 0 0"
