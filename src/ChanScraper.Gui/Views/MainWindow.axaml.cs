@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ChanScraper.Gui.ViewModels;
@@ -9,6 +10,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = new MainWindowViewModel();
         AppendNewScrapeComponent();
     }
 
@@ -19,10 +21,16 @@ public partial class MainWindow : Window
 
     private void AppendNewScrapeComponent()
     {
-        var scrapeView = new ScrapeThreadView();
-        var scrapeViewModel = new ScrapeThreadViewModel();
-        scrapeView.DataContext = scrapeViewModel;
+        var viewModel = DataContext as MainWindowViewModel;
+        ArgumentNullException.ThrowIfNull(viewModel);
         
+        var scrapeViewModel = viewModel.CreateNewScrapeThreadViewModel();
+     
+        var scrapeView = new ScrapeThreadView
+        {
+            DataContext = scrapeViewModel
+        };
+
         pnl_ScrapeThreadAppend.Children.Add(scrapeView);
     }
 }
