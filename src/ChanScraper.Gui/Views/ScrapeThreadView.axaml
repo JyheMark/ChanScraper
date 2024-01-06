@@ -22,7 +22,8 @@
             <TextBox Watermark="Thread Id"
                      Grid.Column="1"
                      Grid.Row="0"
-                     Text="{Binding ThreadIdInput}" />
+                     Text="{Binding ThreadIdInput}" 
+                     Name="txt_ThreadIdInput"/>
             <Button Grid.Column="0" Grid.Row="1"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
@@ -37,7 +38,8 @@
                         HorizontalAlignment="Left">
                 <TextBlock VerticalAlignment="Center">Status: </TextBlock>
                 <TextBlock VerticalAlignment="Center"
-                           Margin="5 0 0 0">
+                           Margin="5 0 0 0"
+                           Name="txt_ScraperStatus">
                     Stopped
                 </TextBlock>
             </StackPanel>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -18,7 +19,7 @@ public partial class MainWindow : Window
         AppendNewScrapeComponent();
     }
 
-    private void Btn_AddScraper_OnClick(object? sender, RoutedEventArgs e)
+    private async void Btn_AddScraper_OnClick(object? sender, RoutedEventArgs e)
     {
         AppendNewScrapeComponent();
     }
@@ -32,9 +33,10 @@ public partial class MainWindow : Window
             DataContext = scrapeViewModel
         };
 
-        scrapeView.ButtonClicked += (_, args) =>
+        scrapeView.ButtonClicked += async (_, args) =>
         {
-            ViewModel.ToggleThreadScraping(args.Board, args.ThreadId);
+            var isScraping = await ViewModel.ToggleThreadScraping(args.Board, args.ThreadId);
+            args.Sender.SetScraping(isScraping);
         };
 
         pnl_ScrapeThreadAppend.Children.Add(scrapeView);

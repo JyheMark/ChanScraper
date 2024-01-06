@@ -13,6 +13,7 @@ internal sealed class ImageDownloaderActor : ReceiveActor
     private readonly string _downloadPath;
     private readonly ILoggingAdapter _loggingAdapter;
     private readonly List<int> _processedPosts;
+    private readonly List<string> _preexistingFiles;
 
     public ImageDownloaderActor(IChanClient client, string downloadPath)
     {

@@ -26,11 +26,33 @@ public partial class ScrapeThreadView : UserControl
 
     private void Btn_ToggleStart_OnClick(object? sender, RoutedEventArgs e)
     {
-        // validate
+        if (!int.TryParse(ViewModel.ThreadIdInput, out var threadId))
+            return;
         
         var selectedBoard = ViewModel.GetBoardByIndex(cbx_BoardSelector.SelectedIndex);
-        var threadId = int.Parse(ViewModel.ThreadIdInput);
         
-        ButtonClicked?.Invoke(sender, new ScrapeToggleButtonPressed(selectedBoard, threadId));
+        ButtonClicked.Invoke(sender, new ScrapeToggleButtonPressed(selectedBoard, threadId, this));
+    }
+
+    public void SetScraping(bool isScraping)
+    {
+        if (isScraping)
+            SetIsScraping();
+        else SetNotScraping();
+    }
+
+    private void SetIsScraping()
+    {
+        cbx_BoardSelector.IsEnabled = false;
+        txt_ThreadIdInput.IsEnabled = false;
+
+        btn_ToggleStart.Content = "Stop";
+        txt_ScraperStatus.Text = "Scraping...";
+    }
+
+    private void SetNotScraping()
+    {
+        btn_ToggleStart.Content = "Start";
+        txt_ScraperStatus.Text = "Stopped";
     }
 }

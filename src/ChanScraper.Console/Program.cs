@@ -41,7 +41,7 @@ try
         var threadIdInput = GetInput("Enter thread Id");
         var threadId = int.Parse(threadIdInput);
         
-        scraperParentActor.ActorRef.Tell(new WatchThread(boardNameInput, threadId));
+        scraperParentActor.ActorRef.Tell(new StartWatchingThread(boardNameInput, threadId));
     }
 }
 catch (Exception ex)
