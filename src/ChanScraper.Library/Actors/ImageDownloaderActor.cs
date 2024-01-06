@@ -13,7 +13,7 @@ internal sealed class ImageDownloaderActor : ReceiveActor
     private readonly string _downloadPath;
     private readonly ILoggingAdapter _loggingAdapter;
     private readonly List<int> _processedPosts;
-    private readonly List<string> _preexistingFiles;
+    private string[]? _preExistingFiles;
 
     public ImageDownloaderActor(IChanClient client, string downloadPath)
     {
@@ -38,10 +38,21 @@ internal sealed class ImageDownloaderActor : ReceiveActor
     private void DownloadImages(string board, GetThreadResponse getThreadResponse)
     {
         string directoryPath = GetDirectoryPath(BuildDirectoryName(board, getThreadResponse));
+        
+        if (_preExistingFiles == null)
+            _preExistingFiles = GetPreExistingFiles(directoryPath);
 
         foreach (Post post in getThreadResponse.Posts.Where(p => p.HasAttachment() && !_processedPosts.Contains(p.Id.Value)))
         {
             var imageFileName = $"{post.FileName}--{post.Time}{post.FileExtension}";
+
+            if (FileExists(imageFileName))
+            {
+                _loggingAdapter.Info($"Skipping {imageFileName}");
+                _processedPosts.Add(post.Id.Value);
+                continue;
+            }
+            
             _loggingAdapter.Info($"Fetching image {imageFileName}");
 
             HttpResponseMessage imageResponse = _client.GetImageAsync(board, post).GetAwaiter().GetResult();
@@ -59,6 +70,17 @@ internal sealed class ImageDownloaderActor : ReceiveActor
 
             _processedPosts.Add(post.Id.Value);
         }
+    }
+
+    private bool FileExists(string filename)
+    {
+        return _preExistingFiles?.Contains(filename) ?? false;
+    }
+
+    private string[] GetPreExistingFiles(string directoryPath)
+    {
+        var files = Directory.GetFiles(directoryPath);
+        return files.Select(Path.GetFileName).ToArray();
     }
 
     private string GetDirectoryPath(string directoryName)
