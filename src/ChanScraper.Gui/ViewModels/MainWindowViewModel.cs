@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Akka.Actor;
-using Akka.Hosting;
 using ChanScraper.ChanApi.Models;
-using ChanScraper.Library.Actors;
 using ChanScraper.Library.Actors.Messages;
 using ReactiveUI;
 using Path = System.IO.Path;
@@ -18,7 +16,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _chanActor = App.GetService<IRequiredActor<ChanScraperEntryActor>>().ActorRef;
+        _chanActor = ServiceLocator.ChanEntryActor;
         _scrapeThreadViewModels = new List<ScrapeThreadViewModel>();
     }
 
@@ -50,14 +48,16 @@ public class MainWindowViewModel : ViewModelBase
             StartWatchingThread(board, threadId);
             return true;
         }
-        
+
         StopWatchingThread(board, threadId);
         return false;
     }
 
     private async Task<bool> IsWatchingThread(Board board, int threadId)
     {
-        var status = await _chanActor.Ask(new GetThreadScrapingStatus(board.ShortTitle, threadId)) as ThreadScrapingStatusReturned;
+        var status =
+            await _chanActor.Ask(new GetThreadScrapingStatus(board.ShortTitle, threadId)) as
+                ThreadScrapingStatusReturned;
         return status.IsScraping;
     }
 

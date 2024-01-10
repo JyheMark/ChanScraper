@@ -31,7 +31,7 @@ public sealed class ScrapeThreadViewModel : ViewModelBase
         if (_boards != null && _boards.Any())
             return _boards;
 
-        var chanClient = App.GetService<IChanClient>();
+        var chanClient = ServiceLocator.GetService<IChanClient>();
         HttpResponseMessage response = await chanClient.GetBoardsAsync();
 
         if (!response.IsSuccessStatusCode)
