@@ -21,7 +21,9 @@ internal sealed class Program
     public static async Task Main(string[] args)
     {
         var servicesBuilder = new ServiceCollection();
-        servicesBuilder.AddSingleton(new HttpClient());
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+        servicesBuilder.AddSingleton(httpClient);
         servicesBuilder.AddTransient<IChanClient, ChanClient>();
         servicesBuilder.BuildServiceProvider();
         
